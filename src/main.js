@@ -1,4 +1,4 @@
-window.$ = window.jQuery = function(selectorOrArrayOrTemplate) {
+window.$ = window.jQuery = function (selectorOrArrayOrTemplate) {
   let elements;
   if (typeof selectorOrArrayOrTemplate === "string") {
     if (selectorOrArrayOrTemplate[0] === "<") {
@@ -12,21 +12,22 @@ window.$ = window.jQuery = function(selectorOrArrayOrTemplate) {
     elements = selectorOrArrayOrTemplate;
   }
 
-  function createElement(string) {//根据字符串内容创建
+  function createElement(string) {
+    //根据字符串内容创建
     const container = document.createElement("template");
     container.innerHTML = string.trim();
     return container.content.firstChild;
   }
   // api 可以操作elements
-  const api = Object.create(jQuery.prototype) // 创建一个对象，这个对象的 __proto__ 为括号里面的东西
+  const api = Object.create(jQuery.prototype); // 创建一个对象，这个对象的 __proto__ 为括号里面的东西
   // const api = {__proto__: jQuery.prototype}
   Object.assign(api, {
     elements: elements,
-    oldApi: selectorOrArrayOrTemplate.oldApi
-  })
+    oldApi: selectorOrArrayOrTemplate.oldApi,
+  });
   // api.elements = elements
   // api.oldApi = selectorOrArrayOrTemplate.oldApi
-  return api
+  return api;
 };
 
 jQuery.fn = jQuery.prototype = {
@@ -37,9 +38,9 @@ jQuery.fn = jQuery.prototype = {
   },
   appendTo(node) {
     if (node instanceof Element) {
-      this.each(el => node.appendChild(el));
+      this.each((el) => node.appendChild(el));
     } else if (node.jquery === true) {
-      this.each(el => node.get(0).appendChild(el));
+      this.each((el) => node.get(0).appendChild(el));
     }
   },
   append(children) {
@@ -50,7 +51,7 @@ jQuery.fn = jQuery.prototype = {
         this.get(0).appendChild(children[i]);
       }
     } else if (children.jquery === true) {
-      children.each(node => this.get(0).appendChild(node));
+      children.each((node) => this.get(0).appendChild(node));
     }
   },
   find(selector) {
@@ -70,7 +71,7 @@ jQuery.fn = jQuery.prototype = {
   },
   parent() {
     const array = [];
-    this.each(node => {
+    this.each((node) => {
       if (array.indexOf(node.parentNode) === -1) {
         array.push(node.parentNode);
       }
@@ -79,7 +80,7 @@ jQuery.fn = jQuery.prototype = {
   },
   children() {
     const array = [];
-    this.each(node => {
+    this.each((node) => {
       if (array.indexOf(node.parentNode) === -1) {
         array.push(...node.children);
       }
@@ -99,6 +100,7 @@ jQuery.fn = jQuery.prototype = {
   },
   end() {
     return this.oldApi; // this 就是新 api
-  }
+  },
 };
 
+$("<div>hi</div>").print();
